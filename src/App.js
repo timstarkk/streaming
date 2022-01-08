@@ -65,7 +65,7 @@ function App() {
       query: OnCreateComment
     })
     .subscribe({
-      next: commentData => {
+      next: async commentData => {
         console.log({ commentData })
         const { value: { data } } = commentData;
         try {
