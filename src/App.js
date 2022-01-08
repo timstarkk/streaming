@@ -67,6 +67,16 @@ function App() {
     .subscribe({
       next: commentData => {
         console.log({ commentData })
+        const { value: { data } } = commentData;
+        try {
+          const user = await Auth.currentAuthenticatedUser();
+          if (user.username === data.onCreateComment.owner) {
+            return
+          }
+          dispatch({ type: "ADD_COMMENT", comment: data.onCreateComment })
+        } catch (err) { // fires if not logged in
+          dispatch({ type: "ADD_COMMENT", comment: data.onCreateComment })
+        }
       }
     })
   }
