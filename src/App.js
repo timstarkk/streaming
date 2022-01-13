@@ -1,8 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import Home from './pages/Home/Home';
+import Navbar from './components/Navbar/Navbar';
 import React from 'react'
 import ReactPlayer from 'react-player'
-import { HashRouter, Link, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Link, Routes, Route } from 'react-router-dom';
 import AuthComponent from './AuthComponent';
 import { Auth, API } from 'aws-amplify'; 
 import { createComment as CreateComment } from './graphql/mutations';
@@ -14,18 +16,18 @@ const streamUrl = "https://bd71a34288e9.us-east-1.playback.live-video.net/api/vi
 
 function Router() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <nav>
         <Link to="/">Stream</Link>
         <Link to="/auth">Profile</Link>
       </nav>
       <Routes>
-        <Route path="/" element={<App />}>
+        <Route path="/" element={<Home />}>
         </Route>
         <Route path="/auth" element={<AuthComponent />}>
         </Route>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   )
 }
 
@@ -66,7 +68,6 @@ function App() {
     })
     .subscribe({
       next: async commentData => {
-        console.log({ commentData })
         const { value: { data } } = commentData;
         try {
           const user = await Auth.currentAuthenticatedUser();
