@@ -4,7 +4,7 @@ import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/Navbar';
 import React from 'react'
 import ReactPlayer from 'react-player'
-import { BrowserRouter, Link, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 import AuthComponent from './AuthComponent';
 import { Auth, API } from 'aws-amplify'; 
 import { createComment as CreateComment } from './graphql/mutations';
@@ -14,22 +14,6 @@ import { onCreateComment as OnCreateComment } from './graphql/subscriptions';
 
 const streamUrl = "https://bd71a34288e9.us-east-1.playback.live-video.net/api/video/v1/us-east-1.493218721673.channel.GS9ardy4gu0d.m3u8";
 
-function Router() {
-  return (
-    <BrowserRouter>
-      <nav>
-        <Link to="/">Stream</Link>
-        <Link to="/auth">Profile</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />}>
-        </Route>
-        <Route path="/auth" element={<AuthComponent />}>
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  )
-}
 
 const initialState = {
   comments: []
@@ -144,4 +128,4 @@ function App() {
   );
 }
 
-export default Router;
+export default App;

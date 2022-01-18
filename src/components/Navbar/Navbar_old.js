@@ -157,7 +157,7 @@ class Navbar extends Component {
                                 }}>About</Link>
                             </li>
                             <li>
-                                <Link onClick={() => {
+                                <Link to="" onClick={() => {
                                     this.accountButtonClick()
                                     this.setState({
                                         isOpen: false

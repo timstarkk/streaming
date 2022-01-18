@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 import { Auth } from 'aws-amplify';
+import { GoThreeBars as Hamburger } from "react-icons/go";
+import { MdAccountCircle as AccountIcon } from "react-icons/md";
+import { FaShoppingCart as CartIcon } from "react-icons/fa";
+import { AuthContext } from '../../authContext';
 
-export default function Navbar() {
+export default function Navbar(props) {
     const [isOpen, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [showAccountMenu, setShowAccountMenu] = useState(false);
@@ -12,30 +16,29 @@ export default function Navbar() {
     //the line below is named such to match older component, need to rename this variable.
     const [changeCurrentUser, setChangeCurrentUser] = useState('');
 
+    const location = useLocation().pathname;
+
+    const { user, setCurrentUser, afterSignOut } = useContext(AuthContext);
 
     const listenScrollEvent = e => {
         if (window.scrollY > 400) {
-            this.setState({ scrolled: true })
+            setScrolled(true);
         } else {
-            this.setState({ scrolled: false })
+            setScrolled(false);
         }
     };
 
     const handleToggle = () => {
-        this.setState({ isOpen: !this.state.isOpen })
+        setOpen(!isOpen);
     };
 
     useEffect(() => {
         window.addEventListener("scroll", listenScrollEvent())
 
-        console.log('hello tijmmmmmmhny');
-
-        const { setCurrentUser } = this.context;
-
-        Auth.currentAuthenticatedUser()
-        .then(currentUser => setUser(currentUser))
-        .catch(err => console.log({ err }))
-
+        // Auth.currentAuthenticatedUser()
+        // .then(currentUser => setUser(currentUser))
+        // .catch(err => console.log({ err }))        
+        
         Auth.currentSession()
             .then(data => {
                 let sub = data.accessToken.payload.sub;
@@ -48,93 +51,122 @@ export default function Navbar() {
             })
             .catch(err => {
                 console.log(err);
-                console.log(this.state.isSignedIn)
             });
-    });
+      }, [])
 
-    const getLocation = () => {
-        return this.props.location.pathname;
-    }
-
-    const accountButtonClick = () => {
-        // console.log('you clicked the account button')
-        const { currentUser, setCurrentUser, afterSignOut } = this.context;
-        console.log(currentUser);
+    setShowAccountMenu(true);
+    const AccountButtonClick = () => {
+        console.log('you clicked the account button');
+        setShowAccountMenu(!showAccountMenu);
 
         if (Object.keys(currentUser).length !== 0) {
-            this.setState({
-                isSignedIn: true,
-                currentUser: currentUser.username,
-                showAccountMenu: true,
-                setCurrentUser,
-                afterSignOut
-            }, () => {
-                document.addEventListener('click', this.closeMenu);
-            });
+            setIsSignedIn(true);
+            setCurrentUser(currentUser.username);
+            setShowAccountMenu(true);
+
+            console.log('in here');
+            console.log(showAccountMenu);
+
+            document.addEventListener('click', closeMenu);
         } else {
-            this.setState({
-                showAccountMenu: true,
-                setCurrentUser,
-                afterSignOut
-            }, () => {
-                document.addEventListener('click', this.closeMenu);
-            });
+            setShowAccountMenu(true);
+            document.addEventListener('click', closeMenu);
         }
     }
 
     const closeMenu = () => {
-        this.setState({ showAccountMenu: false }, () => {
-            document.removeEventListener('click', this.closeMenu);
-        });
+        setShowAccountMenu(false);
+        document.removeEventListener('click', closeMenu);
     }
 
     const handleSignOut = () => {
         console.log('you clicked sign out')
-        this.state.afterSignOut();
+        // afterSignOut();
         Auth.signOut()
             .then(data => console.log(data))
             .catch(err => console.log(err));
 
-        this.state.setCurrentUser('');
-        this.setState({
-            currentUser: '',
-            isSignedIn: false
-        })
+        setUser('');
+        setIsSignedIn(false);
         this.props.history.push('/');
     }
 
     return (
         <>
-            <nav className={"navbar nav-white"}>
+            <nav className={"navbar " + (scrolled ? "nav-scrolled" : "") + (location !== '/' ? " nav-white" : "")}>
                 <div className="nav-center">
                     <div className="nav-header">
                         <Link to="/" className="text-link">
                             <div className="logo-div">
-                                <p className={"logo-text nav-white"}>
-                                    streaming app
+                                <p className={"logo-text " + (scrolled ? "nav-scrolled" : "") + (location !== '/' ? " nav-white" : "")}>
+                                    streaming site
                             </p>
                             </div>
                             {/* <img src={logo} alt="logo" style={{ width: "250px", height: "auto" }} /> */}
                         </Link>
+                        <button type="button" className="nav-btn" onClick={handleToggle}>
+                            <Hamburger className={"nav-icon " + (scrolled ? 'nav-scrolled' : '') + (location !== '/' ? " nav-white" : "")} />
+                        </button>
                     </div>
-                    <ul className={"nav-links nav-white"}>
+                    <ul className={isOpen ? "nav-links show-nav nav-scrolled" : "nav-links " + (scrolled ? 'nav-scrolled' : '') + (location !== '/' ? " nav-white" : "")}>
                         <li>
                             <Link to="/" onClick={() => {
-                                this.setState({
-                                    isOpen: false
-                                })
+                                setOpen(false);
                             }}>Home</Link>
                         </li>
                         <li>
-                            <Link to="/auth" onClick={() => {
+                            <Link to="/store" onClick={() => {
+                                setOpen(false);
+                            }}>Store</Link>
+                        </li>
+                        <li>
+                            <Link to="/About" onClick={() => {
+                                setOpen(false);
+                            }}>About</Link>
+                        </li>
+                        <li>
+                            <div onClick={() => {
+                                AccountButtonClick()
+                                setOpen(false);
+                                setShowAccountMenu(!showAccountMenu);
+                            }}><AccountIcon id="account-link" /></div>
+                        </li>
+                        {/* <li>
+                            <a onClick={() => {
+                                toggleCart()
                                 this.setState({
                                     isOpen: false
                                 })
-                            }}>Profile</Link>
-                        </li>
+                            }}><CartIcon id="cart-icon" /></a>
+                        </li> */}
                     </ul>
                 </div >
             </nav >
+
+            {
+                showAccountMenu
+                    ? (
+                        <div className="account-container-container">
+                            <div className="account-container">
+                                <div className="account-menu">
+                                    {
+                                        isSignedIn ?
+                                            <p>hello, {currentUser.username}</p> :
+                                            <Link to="/account/signup"><button className="btn"> Sign Up </button></Link>
+                                    }
+                                    {
+                                        isSignedIn ?
+                                            <button className="btn featured-btn" onClick={() => handleSignOut()}> Sign Out </button> :
+                                            <Link to='/account/signin'><button className="btn featured-btn">Sign In</button></Link >
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )
+                    : (
+                        null
+                    )
+            }
         </>
     )
 }
