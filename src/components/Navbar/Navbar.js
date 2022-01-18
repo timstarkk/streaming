@@ -54,7 +54,7 @@ export default function Navbar(props) {
             });
       }, [])
 
-    setShowAccountMenu(true);
+    
     const AccountButtonClick = () => {
         console.log('you clicked the account button');
         setShowAccountMenu(!showAccountMenu);
