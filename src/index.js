@@ -8,6 +8,7 @@ import config from './aws-exports';
 import { AuthProvider } from './authContext';
 import { BrowserRouter, Link, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
+import Channel from './pages/Channel/Channel';
 import Navbar from './components/Navbar/Navbar';
 import AuthComponent from './AuthComponent';
 import SignInForm from './components/Account/SignInForm';
@@ -28,6 +29,8 @@ ReactDOM.render(
             <Route path="/account/signin" element={<SignInForm />}>
             </Route>
             <Route path="/account/signup" element={<SignUpForm />}>
+            </Route>
+            <Route path="/channel" element={<Channel />}>
             </Route>
           </Routes>
       </React.StrictMode>
