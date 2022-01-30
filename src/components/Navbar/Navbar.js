@@ -110,9 +110,9 @@ export default function Navbar(props) {
                             }}>Home</Link>
                         </li>
                         <li>
-                            <Link to="/store" onClick={() => {
+                            <Link to="/channel" onClick={() => {
                                 setOpen(false);
-                            }}>Store</Link>
+                            }}>Channel</Link>
                         </li>
                         <li>
                             <Link to="/About" onClick={() => {
