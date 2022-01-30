@@ -119,12 +119,12 @@ export default function Navbar(props) {
                                 setOpen(false);
                             }}>About</Link>
                         </li>
-                        <li onClick={() => {
+                        <li>
+                            <Link to="" onClick={() => {
                                 AccountButtonClick();
                                 setOpen(false);
                                 // setShowAccountMenu(!showAccountMenu);
-                            }}>
-                            <div><AccountIcon id="account-link" /></div>
+                            }}><AccountIcon id="account-link" /></Link>
                         </li>
                         {/* <li>
                             <a onClick={() => {
