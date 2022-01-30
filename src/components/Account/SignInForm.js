@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 import './Account.css';
 import { ItemContext } from '../../context';
@@ -22,60 +21,63 @@ export default class SignInForm extends Component {
 
 
     async handleSubmit(e) {
-        const { setCurrentUser } = this.context;
-        this.setState({
-            setCurrentUser
-        })
+        console.log('you clicked submit');
+        // const { setCurrentUser } = this.context;
+        // this.setState({
+        //     setCurrentUser
+        // })
 
-        e.preventDefault();
-        const { username, password, email, phone_number } = this.state;
-        await Auth.signIn({
-            username,
-            password
-        })
-            .then(() => console.log('signed in'))
-            .catch(error => {
-                if(error.code = "UserNotConfirmedException") {
-                        try {
-                            Auth.resendSignUp(username);
-                            console.log('code resent succesfully');
-                            this.setState({
-                                redirect: '/account/confirm' 
-                            })
-                        } catch (err) {
-                            console.log('error resending code: ', err);
-                        }
-                }
-            })
+        // e.preventDefault();
+        // const { username, password, email, phone_number } = this.state;
+        // await Auth.signIn({
+        //     username,
+        //     password
+        // })
+        //     .then(() => console.log('signed in'))
+        //     .catch(error => {
+        //         if(error.code = "UserNotConfirmedException") {
+        //                 try {
+        //                     Auth.resendSignUp(username);
+        //                     console.log('code resent succesfully');
+        //                     this.setState({
+        //                         redirect: '/account/confirm' 
+        //                     })
+        //                 } catch (err) {
+        //                     console.log('error resending code: ', err);
+        //                 }
+        //         }
+        //     })
 
 
-        await Auth.confirmSignIn(username)
-            .then(() => console.log('confirmed sign up'))
-            .catch(error => console.log(error))
+        // await Auth.confirmSignIn(username)
+        //     .then(() => console.log('confirmed sign up'))
+        //     .catch(error => console.log(error))
 
-        await Auth.currentSession()
-            .then(data => {
-                let userInfo = data.accessToken.payload;
-                this.state.setCurrentUser(userInfo);
-            })
-            .catch(err => {
-                console.log(err.message);
-            });
+        // await Auth.currentSession()
+        //     .then(data => {
+        //         let userInfo = data.accessToken.payload;
+        //         this.state.setCurrentUser(userInfo);
+        //     })
+        //     .catch(err => {
+        //         console.log(err.message);
+        //     });
 
-        this.setState({
-            redirect: "/"
-        });
+        // this.setState({
+        //     redirect: "/"
+        // });
     }
 
     handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        // this.setState({
+        //     [e.target.name]: e.target.value
+        // });
     }
+
     render() {
 
         if (this.state.redirect) {
-            return <Redirect to={this.state.redirect} />
+            // return <Redirect to={this.state.redirect} />
+            console.log('trying to redirect... not really');
         
         } else {
             return (

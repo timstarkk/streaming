@@ -10,6 +10,8 @@ import { BrowserRouter, Link, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/Navbar';
 import AuthComponent from './AuthComponent';
+import SignInForm from './components/Account/SignInForm';
+import SignUpForm from './components/Account/SignUpForm';
 
 Amplify.configure(config);
 
@@ -22,6 +24,10 @@ ReactDOM.render(
             <Route path="/" element={<Home />}>
             </Route>
             <Route path="/auth" element={<AuthComponent />}>
+            </Route>
+            <Route path="/account/signin" element={<SignInForm />}>
+            </Route>
+            <Route path="/account/signup" element={<SignUpForm />}>
             </Route>
           </Routes>
       </React.StrictMode>

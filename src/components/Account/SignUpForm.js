@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 import './Account.css';
-import validator from 'email-validator';
+// import validator from 'email-validator';
 
 export default class SignUpForm extends Component {
     constructor(props) {
@@ -21,108 +21,112 @@ export default class SignUpForm extends Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
-        const { signedUp, username, password, email, phone_number, confirmationCode } = this.state;
-        let parametersPass = false;
-        const formattedPhoneNumber = phone_number.replace(/\D/g,"");
+        console.log('you clicked submit');
+        // e.preventDefault();
+        // const { signedUp, username, password, email, phone_number, confirmationCode } = this.state;
+        // let parametersPass = false;
+        // const formattedPhoneNumber = phone_number.replace(/\D/g,"");
 
-        parametersPass = this.checkParameters(parametersPass, username, password, email, formattedPhoneNumber);
+        // parametersPass = this.checkParameters(parametersPass, username, password, email, formattedPhoneNumber);
 
-        console.log(parametersPass);
+        // console.log(parametersPass);
 
-        if(parametersPass) {
-            Auth.signUp({
-                username,
-                password,
-                attributes: {
-                    email,
-                    phone_number: '+1' + formattedPhoneNumber
-                }
-            })
-                .then(() => console.log('signed up'))
-                .catch(error => console.log(error))
+        // if(parametersPass) {
+        //     Auth.signUp({
+        //         username,
+        //         password,
+        //         attributes: {
+        //             email,
+        //             phone_number: '+1' + formattedPhoneNumber
+        //         }
+        //     })
+        //         .then(() => console.log('signed up'))
+        //         .catch(error => console.log(error))
 
-            this.setState({
-                signedUp: true,
-                username: '',
-                password: ''
-            });
-        } else {
-            console.log('show red lines');
-        }
+        //     this.setState({
+        //         signedUp: true,
+        //         username: '',
+        //         password: ''
+        //     });
+        // } else {
+        //     console.log('show red lines');
+        // }
 
     }
 
     handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        // this.setState({
+        //     [e.target.name]: e.target.value
+        // });
+
+        console.log('handling change');
     }
 
     checkParameters(parametersPass, username, password, email, formattedPhoneNumber) {
-        if (username.length > 0 &&
-            password.length > 7 &&
-            validator.validate(email) &&
-            formattedPhoneNumber.length == 10){
+        // if (username.length > 0 &&
+        //     password.length > 7 &&
+        //     validator.validate(email) &&
+        //     formattedPhoneNumber.length == 10){
 
-            document.getElementById('formUsername').classList.remove('invalid');
-            document.getElementById('formPassword').classList.remove('invalid');
-            document.getElementById('formEmail').classList.remove('invalid');
-            document.getElementById('formPhone').classList.remove('invalid');
+        //     document.getElementById('formUsername').classList.remove('invalid');
+        //     document.getElementById('formPassword').classList.remove('invalid');
+        //     document.getElementById('formEmail').classList.remove('invalid');
+        //     document.getElementById('formPhone').classList.remove('invalid');
 
             
-            document.getElementById('username-invalid').classList.remove('visible');
-            document.getElementById('password-invalid').classList.remove('visible');
-            document.getElementById('email-invalid').classList.remove('visible');
-            document.getElementById('phone-invalid').classList.remove('visible');
+        //     document.getElementById('username-invalid').classList.remove('visible');
+        //     document.getElementById('password-invalid').classList.remove('visible');
+        //     document.getElementById('email-invalid').classList.remove('visible');
+        //     document.getElementById('phone-invalid').classList.remove('visible');
 
-            parametersPass = true;
-            return parametersPass;
-        }
+        //     parametersPass = true;
+        //     return parametersPass;
+        // }
 
-        if (username.length <= 0) {
-            console.log('username invalid');
-            document.getElementById('formUsername').classList.add('invalid');
-            document.getElementById('username-invalid').classList.add('visible');
-        } else {
-            document.getElementById('formUsername').classList.remove('invalid');
-            document.getElementById('username-invalid').classList.remove('visible');
-        }
+        // if (username.length <= 0) {
+        //     console.log('username invalid');
+        //     document.getElementById('formUsername').classList.add('invalid');
+        //     document.getElementById('username-invalid').classList.add('visible');
+        // } else {
+        //     document.getElementById('formUsername').classList.remove('invalid');
+        //     document.getElementById('username-invalid').classList.remove('visible');
+        // }
         
-        if (password.length < 8) {
-            console.log('password invalid');
-            document.getElementById('formPassword').classList.add('invalid');
-            document.getElementById('password-invalid').classList.add('visible');
-        } else {
-            document.getElementById('formPassword').classList.remove('invalid');
-            document.getElementById('password-invalid').classList.remove('visible');
-        }
+        // if (password.length < 8) {
+        //     console.log('password invalid');
+        //     document.getElementById('formPassword').classList.add('invalid');
+        //     document.getElementById('password-invalid').classList.add('visible');
+        // } else {
+        //     document.getElementById('formPassword').classList.remove('invalid');
+        //     document.getElementById('password-invalid').classList.remove('visible');
+        // }
 
-        if(!validator.validate(email)) {
-            console.log('email invalid');
-            document.getElementById('formEmail').classList.add('invalid');
-            document.getElementById('email-invalid').classList.add('visible');
-        } else {
-            document.getElementById('formEmail').classList.remove('invalid');
-            document.getElementById('email-invalid').classList.remove('visible');
-        }
+        // if(!validator.validate(email)) {
+        //     console.log('email invalid');
+        //     document.getElementById('formEmail').classList.add('invalid');
+        //     document.getElementById('email-invalid').classList.add('visible');
+        // } else {
+        //     document.getElementById('formEmail').classList.remove('invalid');
+        //     document.getElementById('email-invalid').classList.remove('visible');
+        // }
 
-        if (formattedPhoneNumber.length !== 10) {
-            console.log('phone number invalid');
-            document.getElementById('formPhone').classList.add('invalid');
-            document.getElementById('phone-invalid').classList.add('visible');
-        } else {
-            document.getElementById('formPhone').classList.remove('invalid');
-            document.getElementById('phone-invalid').classList.remove('visible');
-        }
-        
+        // if (formattedPhoneNumber.length !== 10) {
+        //     console.log('phone number invalid');
+        //     document.getElementById('formPhone').classList.add('invalid');
+        //     document.getElementById('phone-invalid').classList.add('visible');
+        // } else {
+        //     document.getElementById('formPhone').classList.remove('invalid');
+        //     document.getElementById('phone-invalid').classList.remove('visible');
+        // }
+        console.log('should be checking parameters');
     }
 
     render() {
         const { signedUp } = this.state;
 
         if (signedUp) {
-            return <Redirect to='/account/confirm' />
+            // return <Redirect to='/account/confirm' />
+            console.log('attempting to redirect, not really you need to code it');
         } else {
             return (
                 <div className="account-wrapper">

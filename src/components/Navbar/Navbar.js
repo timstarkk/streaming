@@ -35,9 +35,9 @@ export default function Navbar(props) {
     useEffect(() => {
         window.addEventListener("scroll", listenScrollEvent())
 
-        // Auth.currentAuthenticatedUser()
-        // .then(currentUser => setUser(currentUser))
-        // .catch(err => console.log({ err }))        
+        Auth.currentAuthenticatedUser()
+        .then(currentUser => setUser(currentUser))
+        .catch(err => console.log({ err }))
         
         Auth.currentSession()
             .then(data => {
@@ -55,22 +55,17 @@ export default function Navbar(props) {
       }, [])
 
     
-    const AccountButtonClick = () => {
-        console.log('you clicked the account button');
-        setShowAccountMenu(!showAccountMenu);
+    const AccountButtonClick = function(){
+        // console.log('you clicked the account button');
 
         if (Object.keys(currentUser).length !== 0) {
             setIsSignedIn(true);
             setCurrentUser(currentUser.username);
-            setShowAccountMenu(true);
-
-            console.log('in here');
-            console.log(showAccountMenu);
-
-            document.addEventListener('click', closeMenu);
+            setShowAccountMenu(!showAccountMenu);
+            // document.addEventListener('click', closeMenu);
         } else {
-            setShowAccountMenu(true);
-            document.addEventListener('click', closeMenu);
+            setShowAccountMenu(!showAccountMenu);
+            // document.addEventListener('click', closeMenu);
         }
     }
 
@@ -124,12 +119,12 @@ export default function Navbar(props) {
                                 setOpen(false);
                             }}>About</Link>
                         </li>
-                        <li>
-                            <div onClick={() => {
-                                AccountButtonClick()
+                        <li onClick={() => {
+                                AccountButtonClick();
                                 setOpen(false);
-                                setShowAccountMenu(!showAccountMenu);
-                            }}><AccountIcon id="account-link" /></div>
+                                // setShowAccountMenu(!showAccountMenu);
+                            }}>
+                            <div><AccountIcon id="account-link" /></div>
                         </li>
                         {/* <li>
                             <a onClick={() => {
