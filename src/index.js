@@ -13,6 +13,7 @@ import Navbar from './components/Navbar/Navbar';
 import AuthComponent from './AuthComponent';
 import SignInForm from './components/Account/SignInForm';
 import SignUpForm from './components/Account/SignUpForm';
+import ConfirmForm from './components/Account/ConfirmForm';
 
 Amplify.configure(config);
 
@@ -29,6 +30,8 @@ ReactDOM.render(
             <Route path="/account/signin" element={<SignInForm />}>
             </Route>
             <Route path="/account/signup" element={<SignUpForm />}>
+            </Route>
+            <Route path="/account/confirm" element={<ConfirmForm />}>
             </Route>
             <Route path="/channel" element={<Channel />}>
             </Route>

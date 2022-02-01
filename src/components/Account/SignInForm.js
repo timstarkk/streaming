@@ -50,7 +50,7 @@ export default function SignInForm() {
     }
 
     function handleChange(e) {
-        if(e.target.name == 'Username') {
+        if(e.target.name === 'username') {
             setUsername(e.target.value);
         } else {
             setPassword(e.target.value);
@@ -68,8 +68,8 @@ export default function SignInForm() {
                         <h4>Sign In To Your Account</h4>
                         <div className="line" />
                         <form onSubmit={handleSubmit}>
-                            <input type="text" name="Username" placeholder="username" onChange={handleChange} />
-                            <input type="password" name="Password" placeholder="password" onChange={handleChange} />
+                            <input type="text" name="username" placeholder="username" onChange={handleChange} />
+                            <input type="password" name="uassword" placeholder="password" onChange={handleChange} />
                             <button>Sign In</button>
                         </form>
                         <a href="/account/signup">create an account</a>
