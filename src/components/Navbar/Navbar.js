@@ -62,10 +62,8 @@ export default function Navbar(props) {
             setIsSignedIn(true);
             setCurrentUser(currentUser.username);
             setShowAccountMenu(!showAccountMenu);
-            // document.addEventListener('click', closeMenu);
         } else {
             setShowAccountMenu(!showAccountMenu);
-            // document.addEventListener('click', closeMenu);
         }
     }
 
@@ -123,7 +121,7 @@ export default function Navbar(props) {
                             <Link to="" onClick={() => {
                                 AccountButtonClick();
                                 setOpen(false);
-                                // setShowAccountMenu(!showAccountMenu);
+                                // document.addEventListener('click', closeMenu);
                             }}><AccountIcon id="account-link" /></Link>
                         </li>
                         {/* <li>
@@ -141,24 +139,28 @@ export default function Navbar(props) {
             {
                 showAccountMenu
                     ? (
+                        document.addEventListener("mousedown", closeMenu),
                         <div className="account-container-container">
                             <div className="account-container">
-                                <div className="account-menu">
-                                    {
-                                        isSignedIn ?
-                                            <p>hello, {currentUser.username}</p> :
-                                            <Link to="/account/signup"><button className="btn"> Sign Up </button></Link>
-                                    }
-                                    {
-                                        isSignedIn ?
-                                            <button className="btn featured-btn" onClick={() => handleSignOut()}> Sign Out </button> :
-                                            <Link to='/account/signin'><button className="btn featured-btn">Sign In</button></Link >
-                                    }
-                                </div>
+                                {/* <OutsideClick> */}
+                                    <div className="account-menu">
+                                        {
+                                            isSignedIn ?
+                                                <p>hello, {currentUser.username}</p> :
+                                                <Link to="/account/signup"><button className="btn"> Sign Up </button></Link>
+                                        }
+                                        {
+                                            isSignedIn ?
+                                                <button className="btn featured-btn" onClick={() => handleSignOut()}> Sign Out </button> :
+                                                <Link to='/account/signin'><button className="btn featured-btn">Sign In</button></Link >
+                                        }
+                                    </div>
+                                {/* </OutsideClick> */}
                             </div>
                         </div>
                     )
                     : (
+                        document.removeEventListener("mousedown", closeMenu),
                         null
                     )
             }
