@@ -79,7 +79,6 @@ export default function CommentBox() {
 
     }
     async function onChange(e) {
-        e.persist();
         setInput(e.target.value);
     }
 

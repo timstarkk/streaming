@@ -88,7 +88,6 @@ function App() {
 
   }
   async function onChange(e) {
-    e.persist();
     setInput(e.target.value);
   }
   return (
