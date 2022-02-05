@@ -6,6 +6,7 @@ import { GoThreeBars as Hamburger } from "react-icons/go";
 import { MdAccountCircle as AccountIcon } from "react-icons/md";
 import { FaShoppingCart as CartIcon } from "react-icons/fa";
 import { AuthContext } from '../../authContext';
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Navbar(props) {
     const [isOpen, setOpen] = useState(false);
@@ -17,6 +18,7 @@ export default function Navbar(props) {
     const [changeCurrentUser, setChangeCurrentUser] = useState('');
 
     const location = useLocation().pathname;
+    const navigate = useNavigate();
 
     const { user, setCurrentUser, afterSignOut } = useContext(AuthContext);
 
@@ -33,7 +35,7 @@ export default function Navbar(props) {
     };
 
     useEffect(() => {
-        window.addEventListener("scroll", listenScrollEvent())
+        window.addEventListener("scroll", listenScrollEvent)
 
         Auth.currentAuthenticatedUser()
         .then(currentUser => setUser(currentUser))
@@ -56,24 +58,34 @@ export default function Navbar(props) {
 
     
     const AccountButtonClick = function(){
-        // console.log('you clicked the account button');
+        console.log('you clicked the account button');
 
         if (Object.keys(currentUser).length !== 0) {
             setIsSignedIn(true);
             setCurrentUser(currentUser.username);
             setShowAccountMenu(!showAccountMenu);
+            window.addEventListener("mousedown", closeMenu);
         } else {
             setShowAccountMenu(!showAccountMenu);
+            window.addEventListener("mousedown", closeMenu);
+        }
+
+    }
+
+    const closeMenu = (e) => {
+        if (e === undefined) {
+            setShowAccountMenu(false);
+            window.removeEventListener('click', closeMenu);
+        } else if (e.target.name === 'signup' || e.target.name === 'signin') {
+            navigate(`/account/${e.target.name}`)
+            closeMenu();
+        } else {
+            setShowAccountMenu(false);
+            window.removeEventListener('click', closeMenu);
         }
     }
 
-    const closeMenu = () => {
-        setShowAccountMenu(false);
-        document.removeEventListener('click', closeMenu);
-    }
-
     const handleSignOut = () => {
-        console.log('you clicked sign out')
         // afterSignOut();
         Auth.signOut()
             .then(data => console.log(data))
@@ -81,7 +93,7 @@ export default function Navbar(props) {
 
         setUser('');
         setIsSignedIn(false);
-        this.props.history.push('/');
+        props.history.push('/');
     }
 
     return (
@@ -124,14 +136,6 @@ export default function Navbar(props) {
                                 // document.addEventListener('click', closeMenu);
                             }}><AccountIcon id="account-link" /></Link>
                         </li>
-                        {/* <li>
-                            <a onClick={() => {
-                                toggleCart()
-                                this.setState({
-                                    isOpen: false
-                                })
-                            }}><CartIcon id="cart-icon" /></a>
-                        </li> */}
                     </ul>
                 </div >
             </nav >
@@ -139,20 +143,19 @@ export default function Navbar(props) {
             {
                 showAccountMenu
                     ? (
-                        document.addEventListener("mousedown", closeMenu),
-                        <div className="account-container-container">
+                        <div className="account-container-container" onBlur={() => closeMenu}>
                             <div className="account-container">
                                 {/* <OutsideClick> */}
                                     <div className="account-menu">
                                         {
                                             isSignedIn ?
                                                 <p>hello, {currentUser.username}</p> :
-                                                <Link to="/account/signup"><button className="btn"> Sign Up </button></Link>
+                                                <Link to="/account/signup"><button className="btn" name="signup"> Sign Up </button></Link>
                                         }
                                         {
                                             isSignedIn ?
                                                 <button className="btn featured-btn" onClick={() => handleSignOut()}> Sign Out </button> :
-                                                <Link to='/account/signin'><button className="btn featured-btn">Sign In</button></Link >
+                                                <Link to='/account/signin'><button className="btn featured-btn" name="signin">Sign In</button></Link >
                                         }
                                     </div>
                                 {/* </OutsideClick> */}
@@ -160,7 +163,6 @@ export default function Navbar(props) {
                         </div>
                     )
                     : (
-                        document.removeEventListener("mousedown", closeMenu),
                         null
                     )
             }
