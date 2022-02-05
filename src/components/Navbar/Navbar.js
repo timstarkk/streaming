@@ -17,7 +17,8 @@ export default function Navbar(props) {
     //the line below is named such to match older component, need to rename this variable.
     const [changeCurrentUser, setChangeCurrentUser] = useState('');
 
-    const location = useLocation().pathname;
+    const location = useLocation();
+    const pathname = useLocation().pathname;
     const navigate = useNavigate();
 
     const { user, setCurrentUser, afterSignOut } = useContext(AuthContext);
@@ -54,12 +55,10 @@ export default function Navbar(props) {
             .catch(err => {
                 console.log(err);
             });
-      }, [])
+      }, [location])
 
     
     const AccountButtonClick = function(){
-        console.log('you clicked the account button');
-
         if (Object.keys(currentUser).length !== 0) {
             setIsSignedIn(true);
             setCurrentUser(currentUser.username);
@@ -76,8 +75,10 @@ export default function Navbar(props) {
         if (e === undefined) {
             setShowAccountMenu(false);
             window.removeEventListener('click', closeMenu);
+        } else if(e.target.id === 'account-link' || e.target.parentNode.id === 'account-link' || e.target.name === 'signout') {
+            // do nothing (AccountButtonclick() will trigger separately)
         } else if (e.target.name === 'signup' || e.target.name === 'signin') {
-            navigate(`/account/${e.target.name}`)
+            navigate(`/account/${e.target.name}`);
             closeMenu();
         } else {
             setShowAccountMenu(false);
@@ -86,34 +87,34 @@ export default function Navbar(props) {
     }
 
     const handleSignOut = () => {
-        // afterSignOut();
+        closeMenu();
         Auth.signOut()
             .then(data => console.log(data))
             .catch(err => console.log(err));
 
         setUser('');
         setIsSignedIn(false);
-        props.history.push('/');
+        navigate('/');
     }
 
     return (
         <>
-            <nav className={"navbar " + (scrolled ? "nav-scrolled" : "") + (location !== '/' ? " nav-white" : "")}>
+            <nav className={"navbar " + (scrolled ? "nav-scrolled" : "") + (pathname !== '/' ? " nav-white" : "")}>
                 <div className="nav-center">
                     <div className="nav-header">
                         <Link to="/" className="text-link">
                             <div className="logo-div">
-                                <p className={"logo-text " + (scrolled ? "nav-scrolled" : "") + (location !== '/' ? " nav-white" : "")}>
+                                <p className={"logo-text " + (scrolled ? "nav-scrolled" : "") + (pathname !== '/' ? " nav-white" : "")}>
                                     streaming site
                             </p>
                             </div>
                             {/* <img src={logo} alt="logo" style={{ width: "250px", height: "auto" }} /> */}
                         </Link>
                         <button type="button" className="nav-btn" onClick={handleToggle}>
-                            <Hamburger className={"nav-icon " + (scrolled ? 'nav-scrolled' : '') + (location !== '/' ? " nav-white" : "")} />
+                            <Hamburger className={"nav-icon " + (scrolled ? 'nav-scrolled' : '') + (pathname !== '/' ? " nav-white" : "")} />
                         </button>
                     </div>
-                    <ul className={isOpen ? "nav-links show-nav nav-scrolled" : "nav-links " + (scrolled ? 'nav-scrolled' : '') + (location !== '/' ? " nav-white" : "")}>
+                    <ul className={isOpen ? "nav-links show-nav nav-scrolled" : "nav-links " + (scrolled ? 'nav-scrolled' : '') + (pathname !== '/' ? " nav-white" : "")}>
                         <li>
                             <Link to="/" onClick={() => {
                                 setOpen(false);
@@ -130,11 +131,11 @@ export default function Navbar(props) {
                             }}>About</Link>
                         </li>
                         <li>
-                            <Link to="" onClick={() => {
+                            <div onClick={() => {
                                 AccountButtonClick();
                                 setOpen(false);
                                 // document.addEventListener('click', closeMenu);
-                            }}><AccountIcon id="account-link" /></Link>
+                            }}><AccountIcon id="account-link" /></div>
                         </li>
                     </ul>
                 </div >
@@ -154,7 +155,7 @@ export default function Navbar(props) {
                                         }
                                         {
                                             isSignedIn ?
-                                                <button className="btn featured-btn" onClick={() => handleSignOut()}> Sign Out </button> :
+                                                <button className="btn featured-btn" name="signout" onClick={() => handleSignOut()}> Sign Out </button> :
                                                 <Link to='/account/signin'><button className="btn featured-btn" name="signin">Sign In</button></Link >
                                         }
                                     </div>

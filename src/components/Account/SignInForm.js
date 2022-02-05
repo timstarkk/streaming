@@ -33,9 +33,9 @@ export default function SignInForm() {
             });
 
 
-        await Auth.confirmSignIn(username)
-            .then(() => console.log('confirmed sign up'))
-            .catch(error => console.log(error))
+        // await Auth.confirmSignIn(username)
+        //     .then(() => console.log('confirmed sign up'))
+        //     .catch(error => console.log(error))
 
         await Auth.currentSession()
             .then(data => {

@@ -39,7 +39,7 @@
   list-style-type: none;
   /* background-color: var(--mainWhite); */
 } 
-.nav-links a {
+.nav-links a, .nav-links div {
   font-family: nunito;
   display: block;
   text-decoration: none;
@@ -51,7 +51,7 @@
   font-weight: 700;
   letter-spacing: var(--mainSpacing);
 }
-.nav-links a:hover {
+.nav-links a:hover, .nav-links div:hover {
   cursor: pointer;
   color: var(--mainWhite, 30%);
 }
@@ -189,7 +189,7 @@
     margin-left: 4rem;
     background-color: transparent;
   }
-  .nav-links a {
+  .nav-links a, .nav-links div {
     margin: 0 1rem;
     padding: 0.5rem 0;
   }
